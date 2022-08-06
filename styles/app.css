@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+sub,
+sup {
+  font-weight: 400;
+  font-size: 55%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: 0em;
+  vertical-align: super;
+}
+sub {
+  bottom: -0.25em;
+  vertical-align: sub;
+}
+
+@layer components {
+  .form-label {
+    @apply absolute text-xs -top-7 left-4 text-sky-500 peer-placeholder-shown:text-base peer-placeholder-shown:left-4 peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:text-xs peer-focus:-top-7 peer-focus:left-4 peer-focus:text-sky-500 transition-all;
+  }
+  .two-label {
+    @apply absolute text-xs -top-5 left-4 text-sky-500 peer-placeholder-shown:text-base peer-placeholder-shown:left-4 peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:text-xs peer-focus:-top-5 peer-focus:left-4 peer-focus:text-sky-500 transition-all;
+  }
+}
