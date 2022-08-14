@@ -1,7 +1,12 @@
-import { Form, useActionData } from '@remix-run/react'
+import { Form, useActionData, useTransition } from '@remix-run/react'
 import { json, redirect } from '@remix-run/node'
 
 import pillars from '~/img/pillars.svg'
+import styles from "~/styles/index.css";
+
+export const links = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
 
 export const action = async ({ request }) => {
   const formData = await request.formData()
@@ -17,7 +22,7 @@ export const action = async ({ request }) => {
 }
 
 export default function Index() {
-
+  let transition = useTransition()
   const data = useActionData()
 
   return (
@@ -26,10 +31,11 @@ export default function Index() {
         <div className='flex flex-col justify-center items-center z-10 bg-white min-h-full shadow-xl rounded w-10/12 mx-auto md:w-8/12 lg:w-6/12 xl:w-4/12 2xl:w-4/12 bg-hero-wave bg-no-repeat py-12 align-middle'>
           <div className='flex flex-col justify-center items-center my-auto'>
             <div className='text-sky-600 font-bold text-5xl px-8 lg:px-4 text-center mb-4 pt-2 tracking-tight'>
-              <img src={pillars} width='400px' alt='pillars' />
+              <img src={pillars} width='380px' alt='pillars' />
               Login to Tracker<sup className='super'>®</sup>
-            </div><div className='text-sky-600 mb-6'>Username: <span className='italic font-bold'>tracker</span> | Password: <span className='italic font-bold'>track123</span></div>
+            </div><div className='text-sky-600 mb-6 text-base'>Username: <span className='italic font-bold'>tracker</span> | Password: <span className='italic font-bold'>track123</span></div>
             {data?.error ? <div className='text-red-500 mb-6 text-sm'>{data.error}</div> : null}
+
             <Form replace method='post'>
               <div className='relative mb-8'>
                 <input id='usern' name='username' type='text' className='border-gray-200 text-gray-700 w-72 p-4 pl-8 rounded-full placeholder-gray-300 shadow-8xl
@@ -46,9 +52,9 @@ export default function Index() {
                 >Password</label>
               </div>
               <button type='submit' name='_action' value='login' className='bg-sky-500 hover:bg-sky-400 text-gray-100 font-bold px-6 py-3 rounded-full inline-flex items-center mr-6'>
-                Login
+                {(transition.state === "submitting" || transition.state === "loading") ? 'Logging in...' : 'Login'}
               </button>
-              <button type='reset' name='_action' value='login' className='bg-gray-400 hover:bg-gray-300 text-gray-100 font-bold px-6 py-3 rounded-full inline-flex items-center'>
+              <button display='none' type='reset' name='_action' value='login' className={`${(transition.state === "submitting" || transition.state === "loading") ? 'bg-gray-200' : 'bg-gray-400'} hover:bg-gray-300 text-gray-100 font-bold px-6 py-3 rounded-full inline-flex items-center`}>
                 Reset
               </button>
             </Form>
